@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        li{
+            height: 50px;
+        }
+        .item-active{
+            background-color: aqua;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <ul>
+
+        </ul>
+    </div>
+    <div id="button" style="width: 100px; height: 200px; background: red;"></div>
+</body>
+<script src="jquery-1.10.1.min.js"></script>
+<script>
+    (function(){
+        var clickNum = 0;
+        var arr = [
+        {
+            "len": 198475656323223,
+            "leg": 198475656323223,
+            "name": "小空空",
+            "name1": 429,
+        },
+        {
+            "len": 198475656323223,
+            "leg": 198475656323223,
+            "name": "小4空空",
+            "name1": 429,
+        }
+
+    ];
+        clickChangeFun(arr);
+        $('#button').on('click',function(){
+            clickChangeFun(arr);
+        })
+        $('ul').on('mous2eover click','li',function(e){
+            //var index = $(this).index();
+           // alert(index);
+           $(this).siblings().removeClass('item-active');
+           $(this).addClass('item-active');
+            // if($(this).hasClass('item-active')){
+            //     $(this).siblings().removeClass('item-active');
+            // }else{
+            //     $(this).addClass('item-active');
+            // }
+           // $('li').eq(index).css('background-color','#98bf21')
+           // $(this).css('background-color','#98bf21')
+           alert(1);
+        })
+        function clickChangeFun(Arr){
+                var totalCount = Arr.length;//总记录数
+                var perPageCount = 3;//预定每页显示数
+                var pageCount = 0;//总页数
+                var tempRs = totalCount%perPageCount;
+                var actualPerPageCount = 0;//实际每页的显示数
+                var strTotal = "";//待打印内容的缓冲变量
+                if(tempRs!=0){
+                    pageCount = parseInt(totalCount/perPageCount) + 1;
+                }else{
+                    pageCount = parseInt(totalCount/perPageCount);
+                }
+                if(clickNum*perPageCount+perPageCount>totalCount){
+                    actualPerPageCount = totalCount - clickNum * perPageCount;
+                }else{
+                    actualPerPageCount = perPageCount;
+                }
+                for(var i = clickNum*perPageCount; i<clickNum * perPageCount + actualPerPageCount;i++){
+                    strTotal += "<li>"+Arr[i].name+"</li>"
+                }
+                clickNum++             
+                if(clickNum>=pageCount){                
+                    clickNum = 0;
+                }
+                $("ul").empty().append(strTotal).hide().stop(true,true).fadeIn("slow");
+                //console.log(strTotal);
+                return clickNum;
+        }
+    })()
+// function getArr(num,array){
+//     //num表示要去多少个，它不能大于要取的那个数组的最大长度，如果超过了那么就等于它的长度
+//     var aLength = array.length;
+//     if(num>=aLength){
+//         num = aLength;
+//     };
+//     var cacheArr = [];
+//     //我们用一个数组保存原来的数组
+//     //记住千万能直接赋值，因为数组是一个引用，这样不能保持原来的数组
+//     //这里也可以用originArr = array.slice()
+//     var originArr = (function(){
+//         var arr = [];
+//         for(var i = 0,len = array.length;i<len;i++){
+//             arr.push(array[i]);
+//         };
+//         return arr;
+//     })();
+//     for(var i = 0;i<num;i++){
+//         //array.length不能写成上面的aLength，因为aLength是固定的值，而array.length随着array的改变是自动更新的
+//         //Math.random() * array.length得到的是一个介于长度和零之间的一个值，包括0但不包含长度值
+//         //我们算出的是一个浮点值，所以我们必须把它转化成整数
+//         //因为不能超过最大长度值，所以应该向下取整
+//         var _index = Math.floor(Math.random() * array.length);
+//         cacheArr.push(array[_index]);
+//         //记住一定，取出来之后，一定删除原来位置上的数组值
+//         //要不然数组更新不了
+//         array.splice(_index,1);
+//     };
+//     //取回原来的数组
+//     array = originArr;
+//     console.log(array);
+//     return cacheArr;
+// };
+// function toHeavy(array){
+//         var cache = [];
+//         for(var i = 0,len = array.length;i<len;i++){
+//             //用闭包，防止isHeavy向外部暴露，当然如果用es6的话，可以用let对isHeavy进行声明也能达到同样的目的
+//             //因为js中没有块级作用域
+//             (function(){
+//                 var isHeavy = false;
+//                 for(var j = 0,_len = cache.length;j<_len;j++){
+//                     if(cache[j] == array[i]){
+//                         isHeavy = true;
+//                         break;
+//                     };
+//                 };
+//                 if(!isHeavy){
+//                     //如果不是重复的，那么就执行把当前值推送的cache里面
+//                     cache.push(array[i]);
+//                 };
+//             })();
+//         };
+//         return cache;
+//     };
+// var brr = getArr(5,arr);
+// //var arrs = toHeavy(brr)
+// console.log(brr);
+</script>
+</html>
